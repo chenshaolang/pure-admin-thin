@@ -13,7 +13,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import removeConsole from "vite-plugin-remove-console";
 import { themePreprocessorPlugin } from "@pureadmin/theme";
 import { genScssMultipleScopeVars } from "../src/layout/theme";
-import { vitePluginFakeServer } from "vite-plugin-fake-server";
+// import { vitePluginFakeServer } from "vite-plugin-fake-server";
 
 export function getPluginsList(
   VITE_CDN: boolean,
@@ -43,13 +43,13 @@ export function getPluginsList(
      * vite-plugin-router-warn只在开发环境下启用，只处理vue-router文件并且只在服务启动或重启时运行一次，性能消耗可忽略不计
      */
     removeNoMatch(),
-    // mock支持
-    vitePluginFakeServer({
-      logger: false,
-      include: "mock",
-      infixName: false,
-      enableProd: true
-    }),
+    // // mock支持
+    // vitePluginFakeServer({
+    //   logger: false,
+    //   include: "mock",
+    //   infixName: false,
+    //   enableProd: true
+    // }),
     // 自定义主题
     themePreprocessorPlugin({
       scss: {
