@@ -1251,8 +1251,8 @@ export default defineFakeRoute([
   },
   // 部门管理
   {
-    url: "/dept",
-    method: "post",
+    url: "/depts",
+    method: "get",
     response: () => {
       return {
         success: true,

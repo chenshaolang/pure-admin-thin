@@ -44,10 +44,10 @@ import {
 export function useUser(tableRef: Ref, treeRef: Ref) {
   const form = reactive({
     // 左侧部门树的id
-    deptId: "",
-    username: "",
-    phone: "",
-    status: ""
+    deptId: undefined,
+    username: undefined,
+    phone: undefined,
+    status: undefined
   });
   const formRef = ref();
   const ruleFormRef = ref();
@@ -126,7 +126,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       label: "手机号码",
       prop: "phone",
       minWidth: 90,
-      formatter: ({ phone }) => hideTextAtIndex(phone, { start: 3, end: 6 })
+      formatter: ({ phone }) =>
+        phone ? hideTextAtIndex(phone, { start: 3, end: 6 }) : "-"
     },
     {
       label: "状态",
@@ -187,10 +188,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
 
   function onChange({ row, index }) {
     ElMessageBox.confirm(
-      `确认要<strong>${
-        row.status === 0 ? "停用" : "启用"
-      }</strong><strong style='color:var(--el-color-primary)'>${
-        row.username
+      `确认要<strong>${row.status === 0 ? "停用" : "启用"
+      }</strong><strong style='color:var(--el-color-primary)'>${row.username
       }</strong>用户吗?`,
       "系统提示",
       {
@@ -286,7 +285,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
-    form.deptId = "";
+    form.deptId = undefined;
     treeRef.value.onTreeReset();
     onSearch();
   };
