@@ -291,7 +291,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   };
 
   function onTreeSelect({ id, selected }) {
-    form.deptId = selected ? id : "";
+    form.deptId = selected ? id : undefined;
     onSearch();
   }
 
