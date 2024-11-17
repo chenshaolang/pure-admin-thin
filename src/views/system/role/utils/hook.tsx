@@ -14,9 +14,9 @@ import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
 
 export function useRole(treeRef: Ref) {
   const form = reactive({
-    name: "",
-    code: "",
-    status: ""
+    name: undefined,
+    code: undefined,
+    status: undefined
   });
   const curRow = ref();
   const formRef = ref();
@@ -104,10 +104,8 @@ export function useRole(treeRef: Ref) {
 
   function onChange({ row, index }) {
     ElMessageBox.confirm(
-      `确认要<strong>${
-        row.status === 0 ? "停用" : "启用"
-      }</strong><strong style='color:var(--el-color-primary)'>${
-        row.name
+      `确认要<strong>${row.status === 0 ? "停用" : "启用"
+      }</strong><strong style='color:var(--el-color-primary)'>${row.name
       }</strong>吗?`,
       "系统提示",
       {
@@ -185,9 +183,9 @@ export function useRole(treeRef: Ref) {
       title: `${title}角色`,
       props: {
         formInline: {
-          name: row?.name ?? "",
-          code: row?.code ?? "",
-          remark: row?.remark ?? ""
+          name: row?.name,
+          code: row?.code,
+          remark: row?.remark
         }
       },
       width: "40%",

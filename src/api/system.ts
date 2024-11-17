@@ -39,7 +39,9 @@ export const getRoleIds = (data?: object) => {
 
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("role"), { data });
+  return http.request<ResultTable>("post", baseUrlApi("roles/search"), {
+    data
+  });
 };
 
 /** 获取系统管理-菜单管理列表 */
@@ -87,10 +89,12 @@ export const getSystemLogsDetail = (data?: object) => {
 
 /** 获取角色管理-权限-菜单权限 */
 export const getRoleMenu = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("role-menu"), { data });
+  return http.request<Result>("post", baseUrlApi("roles/role-menu"), { data });
 };
 
 /** 获取角色管理-权限-菜单权限-根据角色 id 查对应菜单 */
 export const getRoleMenuIds = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("role-menu-ids"), { data });
+  return http.request<Result>("post", baseUrlApi("roles/role-menu-ids"), {
+    data
+  });
 };
