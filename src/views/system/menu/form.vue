@@ -88,7 +88,8 @@ defineExpose({ getRef });
             placeholder="请选择上级菜单"
           >
             <template #default="{ node, data }">
-              <span>{{ transformI18n(data.title) }}</span>
+              <span>{{ data.title }}</span>
+              <!-- <span>{{ transformI18n(data.title) }}</span> -->
               <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
             </template>
           </el-cascader>

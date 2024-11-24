@@ -261,7 +261,8 @@ export function useRole(treeRef: Ref) {
   };
 
   const filterMethod = (query: string, node) => {
-    return transformI18n(node.title)!.includes(query);
+    // return transformI18n(node.title)!.includes(query);
+    return node.title!.includes(query);
   };
 
   onMounted(async () => {

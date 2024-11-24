@@ -46,7 +46,7 @@ export const getRoleList = (data?: object) => {
 
 /** 获取系统管理-菜单管理列表 */
 export const getMenuList = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("menu"), { data });
+  return http.request<Result>("post", baseUrlApi("menus/search"), { data });
 };
 
 /** 获取系统管理-部门管理列表 */
