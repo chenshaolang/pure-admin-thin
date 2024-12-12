@@ -55,6 +55,17 @@ export const deleteUsers = (data?: object) => {
   return http.request<Result>("delete", baseUrlApi("users/delete"), { data });
 };
 
+/** 系统管理-用户管理-重置密码 */
+export const resetPassword = (id: string, password: string) => {
+  return http.request<Result>(
+    "post",
+    baseUrlApi(`users/reset-password/${id}`),
+    {
+      data: { password }
+    }
+  );
+};
+
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (data?: object) => {
   return http.request<ResultTable>("post", baseUrlApi("roles/search"), {

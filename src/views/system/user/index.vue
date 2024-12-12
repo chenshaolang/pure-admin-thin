@@ -203,7 +203,8 @@ const {
                 />
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>
+                    <!-- 暂时不需要上传头像 -->
+                    <!-- <el-dropdown-item>
                       <el-button
                         :class="buttonClass"
                         link
@@ -214,7 +215,7 @@ const {
                       >
                         上传头像
                       </el-button>
-                    </el-dropdown-item>
+                    </el-dropdown-item> -->
                     <el-dropdown-item>
                       <el-button
                         :class="buttonClass"
