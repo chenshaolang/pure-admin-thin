@@ -1,5 +1,6 @@
 import { http } from "@/utils/http";
 import { baseUrlApi } from "./utils";
+import type { FormItemProps } from "@/views/system/user/utils/types";
 
 type Result = {
   success: boolean;
@@ -27,6 +28,18 @@ export const getUserList = (data?: object) => {
   });
 };
 
+/** 获取系统管理-用户管理-新增用户 */
+export const addUser = (data?: object) => {
+  return http.request<Result>("post", baseUrlApi("users/create"), { data });
+};
+
+/** 获取系统管理-用户管理-修改用户 */
+export const updateUser = (data?: FormItemProps) => {
+  return http.request<Result>("patch", baseUrlApi(`users/update/${data.id}`), {
+    data
+  });
+};
+
 /** 系统管理-用户管理-获取所有角色列表 */
 export const getAllRoleList = () => {
   return http.request<Result>("get", baseUrlApi("roles/all"));
@@ -35,6 +48,11 @@ export const getAllRoleList = () => {
 /** 系统管理-用户管理-根据userId，获取对应角色id列表（userId：用户id） */
 export const getRoleIds = (data?: object) => {
   return http.request<Result>("post", baseUrlApi("list-role-ids"), { data });
+};
+
+/** 系统管理-用户管理-根据Id列表删除对应的数据 */
+export const deleteUsers = (data?: object) => {
+  return http.request<Result>("delete", baseUrlApi("users/delete"), { data });
 };
 
 /** 获取系统管理-角色管理列表 */

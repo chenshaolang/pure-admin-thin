@@ -21,7 +21,10 @@ import {
   getRoleIds,
   getDeptList,
   getUserList,
-  getAllRoleList
+  getAllRoleList,
+  addUser,
+  updateUser,
+  deleteUsers
 } from "@/api/system";
 import {
   ElForm,
@@ -231,8 +234,13 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
   }
 
   function handleDelete(row) {
-    message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });
-    onSearch();
+    // 删除置顶用户
+    deleteUsers({ ids: [row.id] }).then(() => {
+      message(`您删除了用户编号为${row.id}的这条数据`, { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
+    });
   }
 
   function handleSizeChange(val: number) {
@@ -282,6 +290,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     }, 500);
   }
 
+
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
@@ -312,17 +321,18 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       title: `${title}用户`,
       props: {
         formInline: {
+          id: row?.id ?? 0,
           title,
           higherDeptOptions: formatHigherDeptOptions(higherDeptOptions.value),
-          parentId: row?.dept.id ?? 0,
-          nickname: row?.nickname ?? "",
-          username: row?.username ?? "",
-          password: row?.password ?? "",
+          parentId: row?.dept?.id ?? 0,
+          nickname: row?.nickname ?? undefined,
+          username: row?.username ?? undefined,
+          password: row?.password ?? undefined,
           phone: row?.phone ?? "",
           email: row?.email ?? "",
-          sex: row?.sex ?? "",
+          sex: row?.sex ?? 1,
           status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          remark: row?.remark ?? undefined
         }
       },
       width: "46%",
@@ -341,15 +351,18 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              // addUser(toRaw(valid));
+              await addUser(toRaw(curData));
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await updateUser(toRaw(curData));
               chores();
             }
           }
