@@ -45,9 +45,18 @@ export const getAllRoleList = () => {
   return http.request<Result>("get", baseUrlApi("roles/all"));
 };
 
+/** 系统管理-用户管理-分配角色 */
+export const assignRole = (id: string, roleIds: number[]) => {
+  return http.request<Result>("post", baseUrlApi(`users/assign-role/${id}`), {
+    data: { roleIds }
+  });
+};
+
 /** 系统管理-用户管理-根据userId，获取对应角色id列表（userId：用户id） */
 export const getRoleIds = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("list-role-ids"), { data });
+  return http.request<Result>("post", baseUrlApi("users/list-role-ids"), {
+    data
+  });
 };
 
 /** 系统管理-用户管理-根据Id列表删除对应的数据 */

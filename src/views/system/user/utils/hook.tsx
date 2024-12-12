@@ -25,7 +25,8 @@ import {
   addUser,
   updateUser,
   deleteUsers,
-  resetPassword
+  resetPassword,
+  assignRole
 } from "@/api/system";
 import {
   ElForm,
@@ -503,8 +504,17 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       beforeSure: (done, { options }) => {
         const curData = options.props.formInline as RoleFormItemProps;
         console.log("curIds", curData.ids);
-        // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
-        done(); // 关闭弹框
+
+        assignRole(row.id, curData.ids.map(id => Number(id))).then(() => {
+          message(`已成功分配 ${row.username} 用户的角色`, { type: "success" });
+
+          // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
+          done(); // 关闭弹框
+          onSearch(); // 刷新表格数据
+        }).catch(() => {
+          message(`分配失败`, { type: "error" });
+        });
+        done();
       }
     });
   }
