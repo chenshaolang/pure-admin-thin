@@ -5,6 +5,7 @@
     "moduleResolution": "bundler",
     "strict": false,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "importHelpers": true,
     "experimentalDecorators": true,
     "strictFunctionTypes": false,
