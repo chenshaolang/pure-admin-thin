@@ -93,6 +93,17 @@ export const deleteRole = (data?: object) => {
   return http.request<Result>("delete", baseUrlApi("roles/delete"), { data });
 };
 
+/** 获取系统管理-角色管理-更新角色菜单权限 */
+export const updateRoleMenu = (id: number, data?: { menuIds: number[] }) => {
+  return http.request<Result>(
+    "post",
+    baseUrlApi(`roles/update-role-menu/${id}`),
+    {
+      data
+    }
+  );
+};
+
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (data?: object) => {
   return http.request<ResultTable>("post", baseUrlApi("roles/search"), {
