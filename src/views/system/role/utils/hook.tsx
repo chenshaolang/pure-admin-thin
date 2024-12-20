@@ -9,7 +9,7 @@ import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { getKeyList, deviceDetection } from "@pureadmin/utils";
-import { getRoleList, getRoleMenu, getRoleMenuIds } from "@/api/system";
+import { addRole, getRoleList, getRoleMenu, getRoleMenuIds, updateRole } from "@/api/system";
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
 
 export function useRole(treeRef: Ref) {
@@ -117,6 +117,7 @@ export function useRole(treeRef: Ref) {
       }
     )
       .then(() => {
+
         switchLoadMap.value[index] = Object.assign(
           {},
           switchLoadMap.value[index],
@@ -124,7 +125,7 @@ export function useRole(treeRef: Ref) {
             loading: true
           }
         );
-        setTimeout(() => {
+        setTimeout(async () => {
           switchLoadMap.value[index] = Object.assign(
             {},
             switchLoadMap.value[index],
@@ -132,6 +133,8 @@ export function useRole(treeRef: Ref) {
               loading: false
             }
           );
+          // 更新角色状态
+          await updateRole(row);
           message(`已${row.status === 0 ? "停用" : "启用"}${row.name}`, {
             type: "success"
           });
@@ -183,9 +186,11 @@ export function useRole(treeRef: Ref) {
       title: `${title}角色`,
       props: {
         formInline: {
+          id: row?.id ?? 0,
           name: row?.name,
           code: row?.code,
-          remark: row?.remark
+          remark: row?.remark,
+          status: row?.status ?? 1
         }
       },
       width: "40%",
@@ -204,15 +209,17 @@ export function useRole(treeRef: Ref) {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
-        FormRef.validate(valid => {
+        FormRef.validate(async valid => {
           if (valid) {
             console.log("curData", curData);
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
+              await addRole(toRaw(curData));
               chores();
             } else {
               // 实际开发先调用修改接口，再进行下面操作
+              await updateRole(toRaw(curData));
               chores();
             }
           }

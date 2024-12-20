@@ -7,7 +7,8 @@ const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
     name: "",
     code: "",
-    remark: ""
+    remark: "",
+    status: 1
   })
 });
 

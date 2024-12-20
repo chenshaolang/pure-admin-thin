@@ -1,6 +1,7 @@
 import { http } from "@/utils/http";
 import { baseUrlApi } from "./utils";
-import type { FormItemProps } from "@/views/system/user/utils/types";
+import type { FormItemProps as UserFormItemProps } from "@/views/system/user/utils/types";
+import type { FormItemProps as RoleFormItemProps } from "@/views/system/role/utils/types";
 
 type Result = {
   success: boolean;
@@ -34,7 +35,7 @@ export const addUser = (data?: object) => {
 };
 
 /** 获取系统管理-用户管理-修改用户 */
-export const updateUser = (data?: FormItemProps) => {
+export const updateUser = (data?: UserFormItemProps) => {
   return http.request<Result>("patch", baseUrlApi(`users/update/${data.id}`), {
     data
   });
@@ -73,6 +74,18 @@ export const resetPassword = (id: string, password: string) => {
       data: { password }
     }
   );
+};
+
+/** 获取系统管理-新增角色 */
+export const addRole = (data?: object) => {
+  return http.request<Result>("post", baseUrlApi("roles/create"), { data });
+};
+
+/** 获取系统管理-修改角色 */
+export const updateRole = (data?: RoleFormItemProps) => {
+  return http.request<Result>("patch", baseUrlApi(`roles/update/${data.id}`), {
+    data
+  });
 };
 
 /** 获取系统管理-角色管理列表 */

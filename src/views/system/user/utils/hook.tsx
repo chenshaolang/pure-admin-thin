@@ -213,7 +213,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
             loading: true
           }
         );
-        setTimeout(() => {
+        setTimeout(async () => {
           switchLoadMap.value[index] = Object.assign(
             {},
             switchLoadMap.value[index],
@@ -221,6 +221,8 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
               loading: false
             }
           );
+          // 更新用户状态
+          await updateUser(row);
           message("已成功修改用户状态", {
             type: "success"
           });
@@ -359,7 +361,6 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
             // 表单规则校验通过
             if (title === "新增") {
               // 实际开发先调用新增接口，再进行下面操作
-              // addUser(toRaw(valid));
               await addUser(toRaw(curData));
               chores();
             } else {
