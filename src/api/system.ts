@@ -88,6 +88,11 @@ export const updateRole = (data?: RoleFormItemProps) => {
   });
 };
 
+/** 获取系统管理-删除角色 */
+export const deleteRole = (data?: object) => {
+  return http.request<Result>("delete", baseUrlApi("roles/delete"), { data });
+};
+
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (data?: object) => {
   return http.request<ResultTable>("post", baseUrlApi("roles/search"), {

@@ -9,7 +9,7 @@ import { addDialog } from "@/components/ReDialog";
 import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { getKeyList, deviceDetection } from "@pureadmin/utils";
-import { addRole, getRoleList, getRoleMenu, getRoleMenuIds, updateRole } from "@/api/system";
+import { addRole, deleteRole, getRoleList, getRoleMenu, getRoleMenuIds, updateRole } from "@/api/system";
 import { type Ref, reactive, ref, onMounted, h, toRaw, watch } from "vue";
 
 export function useRole(treeRef: Ref) {
@@ -146,8 +146,12 @@ export function useRole(treeRef: Ref) {
   }
 
   function handleDelete(row) {
-    message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
-    onSearch();
+    deleteRole({ ids: [row.id] }).then(() => {
+      message(`您删除了角色名称为${row.name}的这条数据`, { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
+    });
   }
 
   function handleSizeChange(val: number) {
