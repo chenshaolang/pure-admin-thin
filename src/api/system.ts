@@ -2,6 +2,7 @@ import { http } from "@/utils/http";
 import { baseUrlApi } from "./utils";
 import type { FormItemProps as UserFormItemProps } from "@/views/system/user/utils/types";
 import type { FormItemProps as RoleFormItemProps } from "@/views/system/role/utils/types";
+import type { FormItemProps as MenuFormItemProps } from "@/views/system/menu/utils/types";
 
 type Result = {
   success: boolean;
@@ -164,4 +165,21 @@ export const getRoleMenuIds = (data?: object) => {
   return http.request<Result>("post", baseUrlApi("roles/role-menu-ids"), {
     data
   });
+};
+
+/** 获取系统管理-菜单管理-新增菜单 */
+export const addMenu = (data?: object) => {
+  return http.request<Result>("post", baseUrlApi("menus/create"), { data });
+};
+
+/** 获取系统管理-菜单管理-修改菜单 */
+export const updateMenu = (data?: MenuFormItemProps) => {
+  return http.request<Result>("patch", baseUrlApi(`menus/update/${data.id}`), {
+    data
+  });
+};
+
+/** 获取系统管理-菜单管理-删除菜单 */
+export const deleteMenu = (data?: object) => {
+  return http.request<Result>("delete", baseUrlApi("menus/delete"), { data });
 };
