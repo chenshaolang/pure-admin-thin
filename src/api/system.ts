@@ -3,7 +3,7 @@ import { baseUrlApi } from "./utils";
 import type { FormItemProps as UserFormItemProps } from "@/views/system/user/utils/types";
 import type { FormItemProps as RoleFormItemProps } from "@/views/system/role/utils/types";
 import type { FormItemProps as MenuFormItemProps } from "@/views/system/menu/utils/types";
-
+import type { FormItemProps as DeptFormItemProps } from "@/views/system/dept/utils/types";
 type Result = {
   success: boolean;
   data?: Array<any>;
@@ -182,4 +182,16 @@ export const updateMenu = (data?: MenuFormItemProps) => {
 /** 获取系统管理-菜单管理-删除菜单 */
 export const deleteMenu = (data?: object) => {
   return http.request<Result>("delete", baseUrlApi("menus/delete"), { data });
+};
+
+/** 获取系统管理-部门管理-新增部门 */
+export const addDept = (data?: object) => {
+  return http.request<Result>("post", baseUrlApi("depts/create"), { data });
+};
+
+/** 获取系统管理-部门管理-修改部门 */
+export const updateDept = (data?: DeptFormItemProps) => {
+  return http.request<Result>("patch", baseUrlApi(`depts/update/${data.id}`), {
+    data
+  });
 };
