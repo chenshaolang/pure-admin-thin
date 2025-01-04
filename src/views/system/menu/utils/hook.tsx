@@ -146,7 +146,7 @@ export function useMenu() {
           name: row?.name ?? "",
           path: row?.path ?? "",
           component: row?.component ?? "",
-          rank: row?.rank ?? 99,
+          rank: row?.rank ?? 0,
           redirect: row?.redirect ?? "",
           icon: row?.icon ?? "",
           extraIcon: row?.extraIcon ?? "",
