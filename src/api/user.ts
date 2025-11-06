@@ -40,6 +40,11 @@ export const getLogin = (data?: object) => {
   return http.request<UserResult>("post", baseUrlApi("auth/login"), { data });
 };
 
+/** 登出 */
+export const getLogOut = (data?: object) => {
+  return http.request<UserResult>("post", baseUrlApi("auth/logout"), { data });
+};
+
 /** 刷新`token` */
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>(

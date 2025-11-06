@@ -14,6 +14,7 @@ import { useGlobal, isAllEmpty } from "@pureadmin/utils";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import ExitFullscreen from "@iconify-icons/ri/fullscreen-exit-fill";
 import Fullscreen from "@iconify-icons/ri/fullscreen-fill";
+import { getLogOut } from "@/api/user";
 
 const errorInfo =
   "The current routing configuration is incorrect, please check the configuration";
@@ -81,7 +82,13 @@ export function useNav() {
 
   /** 退出登录 */
   function logout() {
-    useUserStoreHook().logOut();
+    // 后端退出
+    getLogOut().then(res => {
+      if (res.success) {
+        // 前端退出
+        useUserStoreHook().logOut();
+      }
+    });
   }
 
   function backTopMenu() {
