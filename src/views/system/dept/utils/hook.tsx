@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { addDept, getDeptList, updateDept } from "@/api/system";
+import { addDept, deleteDept, getDeptList, updateDept } from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -160,8 +160,14 @@ export function useDept() {
     });
   }
 
+
   function handleDelete(row) {
-    message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
+    deleteDept({ ids: [row.id] }).then(() => {
+      message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
+    });
     onSearch();
   }
 

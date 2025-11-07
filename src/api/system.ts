@@ -122,6 +122,11 @@ export const getDeptList = (data?: object) => {
   return http.request<Result>("post", baseUrlApi("depts/search"), { data });
 };
 
+/** 获取系统管理-部门管理-删除部门 */
+export const deleteDept = (data?: object) => {
+  return http.request<Result>("delete", baseUrlApi("depts/delete"), { data });
+};
+
 /** 获取系统监控-在线用户列表 */
 export const getOnlineLogsList = (data?: object) => {
   return http.request<ResultTable>("post", baseUrlApi("online-logs"), {
