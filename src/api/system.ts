@@ -129,7 +129,7 @@ export const deleteDept = (data?: object) => {
 
 /** 获取系统监控-在线用户列表 */
 export const getOnlineLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("online-logs"), {
+  return http.request<ResultTable>("post", baseUrlApi("online-logs/search"), {
     data
   });
 };
