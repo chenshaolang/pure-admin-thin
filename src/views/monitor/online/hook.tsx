@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { message } from "@/utils/message";
-import { getOnlineLogsList } from "@/api/system";
+import { forceLogout, getOnlineLogsList } from "@/api/system";
 import { reactive, ref, onMounted, toRaw } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 
@@ -74,9 +74,12 @@ export function useRole() {
   }
 
   function handleOffline(row) {
-    
-    message(`${row.username}已被强制下线`, { type: "success" });
-    onSearch();
+    forceLogout({ userId: row.id, reason: "管理员强制退出" }).then(() => {
+      message(`${row.username}已被强制下线`, { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`强制下线失败`, { type: "error" });
+    });
   }
 
   async function onSearch() {

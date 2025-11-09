@@ -11,8 +11,10 @@ import type {
 } from "./types.d";
 import { stringify } from "qs";
 import NProgress from "../progress";
-import { getToken, formatToken } from "@/utils/auth";
+import { getToken, formatToken, removeToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
+import router from "@/router";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -139,6 +141,55 @@ class PureHttp {
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
+
+        // 处理 HTTP 错误状态码
+        if (error.response) {
+          const { status } = error.response;
+          const data = error.response.data;
+
+          switch (status) {
+            case 401:
+              // 401 未授权 - Token 失效或未登录
+              message(data?.message || "登录已过期，请重新登录", {
+                type: "error",
+                duration: 3000
+              });
+              // 清除本地 token
+              removeToken();
+              // 跳转到登录页
+              router.push("/login");
+              break;
+            case 403:
+              // 403 禁止访问 - 无权限
+              message(data?.message || "您没有权限访问该资源", {
+                type: "error"
+              });
+              break;
+            case 404:
+              // 404 未找到
+              message(data?.message || "请求的资源不存在", {
+                type: "error"
+              });
+              break;
+            case 500:
+              // 500 服务器错误
+              message(data?.message || "服务器内部错误", {
+                type: "error"
+              });
+              break;
+            default:
+              // 其他错误
+              message(data?.message || `请求失败 (${status})`, {
+                type: "error"
+              });
+          }
+        } else if (error.request) {
+          // 请求已发出，但没有收到响应
+          message("网络连接失败，请检查您的网络", {
+            type: "error"
+          });
+        }
+
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }

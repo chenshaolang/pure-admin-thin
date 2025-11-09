@@ -134,6 +134,13 @@ export const getOnlineLogsList = (data?: object) => {
   });
 };
 
+/** 获取系统监控-在线用户-强制下线 */
+export const forceLogout = (data?: object) => {
+  return http.request<Result>("post", baseUrlApi("online-logs/force-logout"), {
+    data
+  });
+};
+
 /** 获取系统监控-登录日志列表 */
 export const getLoginLogsList = (data?: object) => {
   return http.request<ResultTable>("post", baseUrlApi("login-logs"), { data });
