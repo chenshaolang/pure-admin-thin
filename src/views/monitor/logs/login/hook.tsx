@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { message } from "@/utils/message";
 import { getKeyList } from "@pureadmin/utils";
-import { getLoginLogsList } from "@/api/system";
+import { clearLoginLogs, getLoginLogsList } from "@/api/system";
 import { usePublicHooks } from "@/views/system/hooks";
 import type { PaginationProps } from "@pureadmin/table";
 import { type Ref, reactive, ref, onMounted, toRaw } from "vue";
@@ -120,9 +120,11 @@ export function useRole(tableRef: Ref) {
 
   /** 清空日志 */
   function clearAll() {
-    // 根据实际业务，调用接口删除所有日志数据
-    message("已删除所有日志数据", {
-      type: "success"
+    clearLoginLogs().then(() => {
+      message("已删除所有日志数据", { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
     });
     onSearch();
   }

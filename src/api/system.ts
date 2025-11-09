@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
-import { baseUrlApi } from "./utils";
+import { baseUrlApi, buildUrlWithQuery } from "./utils";
 import type { FormItemProps as UserFormItemProps } from "@/views/system/user/utils/types";
 import type { FormItemProps as RoleFormItemProps } from "@/views/system/role/utils/types";
 import type { FormItemProps as MenuFormItemProps } from "@/views/system/menu/utils/types";
@@ -143,7 +143,15 @@ export const forceLogout = (data?: object) => {
 
 /** 获取系统监控-登录日志列表 */
 export const getLoginLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("login-logs"), { data });
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("login-logs/search"), data)
+  );
+};
+
+/** 获取系统监控-登录日志-清空登录日志 */
+export const clearLoginLogs = () => {
+  return http.request<Result>("delete", baseUrlApi("login-logs/delete-all"));
 };
 
 /** 获取系统监控-操作日志列表 */
