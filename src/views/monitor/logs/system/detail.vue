@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { ref } from "vue";
-import "vue-json-pretty/lib/styles.css";
+// import "vue-json-pretty/lib/styles.css";
 
 const props = defineProps({
   data: {

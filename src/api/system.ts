@@ -158,6 +158,13 @@ export const getLoginLogsList = (data?: object) => {
   );
 };
 
+/** 获取系统监控-登录日志-根据 id 删除日志 */
+export const deleteLoginLogs = (data?: { ids: number[] }) => {
+  return http.request<Result>("delete", baseUrlApi("login-logs/delete"), {
+    data
+  });
+};
+
 /** 获取系统监控-登录日志-清空登录日志 */
 export const clearLoginLogs = () => {
   return http.request<Result>("delete", baseUrlApi("login-logs/delete-all"));
