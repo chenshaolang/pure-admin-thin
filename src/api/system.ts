@@ -25,9 +25,10 @@ type ResultTable = {
 
 /** 获取系统管理-用户管理列表 */
 export const getUserList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("users/search"), {
-    data
-  });
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("users/search"), data)
+  );
 };
 
 /** 获取系统管理-用户管理-新增用户 */
@@ -107,19 +108,26 @@ export const updateRoleMenu = (id: number, data?: { menuIds: number[] }) => {
 
 /** 获取系统管理-角色管理列表 */
 export const getRoleList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("roles/search"), {
-    data
-  });
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("roles/search"), data)
+  );
 };
 
 /** 获取系统管理-菜单管理列表 */
 export const getMenuList = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("menus/search"), { data });
+  return http.request<Result>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("menus/search"), data)
+  );
 };
 
 /** 获取系统管理-部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("depts/search"), { data });
+  return http.request<Result>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("depts/search"), data)
+  );
 };
 
 /** 获取系统管理-部门管理-删除部门 */
@@ -129,9 +137,10 @@ export const deleteDept = (data?: object) => {
 
 /** 获取系统监控-在线用户列表 */
 export const getOnlineLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("online-logs/search"), {
-    data
-  });
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("online-logs/search"), data)
+  );
 };
 
 /** 获取系统监控-在线用户-强制下线 */
