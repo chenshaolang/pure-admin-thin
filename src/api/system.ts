@@ -172,9 +172,25 @@ export const clearLoginLogs = () => {
 
 /** 获取系统监控-操作日志列表 */
 export const getOperationLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("operation-logs"), {
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("operation-logs/search"), data)
+  );
+};
+
+/** 获取系统监控-操作日志-根据 id 删除日志 */
+export const deleteOperationLogs = (data?: { ids: number[] }) => {
+  return http.request<Result>("delete", baseUrlApi("operation-logs/delete"), {
     data
   });
+};
+
+/** 获取系统监控-操作日志-清空操作日志 */
+export const clearOperationLogs = () => {
+  return http.request<Result>(
+    "delete",
+    baseUrlApi("operation-logs/delete-all")
+  );
 };
 
 /** 获取系统监控-系统日志列表 */
