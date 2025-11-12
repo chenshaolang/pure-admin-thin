@@ -63,10 +63,15 @@ export function useRole() {
 
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    pagination.currentPage = 1; // 改变每页条数时，重置到第一页
+    onSearch(1, val);
   }
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch(val, pagination.pageSize);
   }
 
   function handleSelectionChange(val) {
@@ -82,18 +87,41 @@ export function useRole() {
     });
   }
 
-  async function onSearch() {
+  async function onSearch(page?: number, limit?: number) {
     loading.value = true;
-    const { data } = await getOnlineLogsList(toRaw(form));
+
+    // 如果传入了 page 或 limit 参数，更新 pagination
+    if (page !== undefined) {
+      pagination.currentPage = page;
+    }
+    if (limit !== undefined) {
+      pagination.pageSize = limit;
+    }
+
+    // 构建请求参数
+    const params = {
+      ...toRaw(form),
+      page: pagination.currentPage,
+      limit: pagination.pageSize
+    };
+
+    const { data } = await getOnlineLogsList(params);
     dataList.value = data.list;
     pagination.total = data.total;
-    pagination.pageSize = data.pageSize;
-    pagination.currentPage = data.currentPage;
+
+    // 如果后端返回了 pageSize 和 currentPage，使用后端返回的值
+    if (data.pageSize !== undefined) {
+      pagination.pageSize = data.pageSize;
+    }
+    if (data.currentPage !== undefined) {
+      pagination.currentPage = data.currentPage;
+    }
 
     setTimeout(() => {
       loading.value = false;
     }, 500);
   }
+
 
   const resetForm = formEl => {
     if (!formEl) return;

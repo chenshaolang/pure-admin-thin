@@ -130,7 +130,7 @@ onMounted(() => {
           type="primary"
           :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
-          @click="onSearch"
+          @click="() => onSearch()"
         >
           搜索
         </el-button>
