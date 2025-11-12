@@ -195,16 +195,30 @@ export const clearOperationLogs = () => {
 
 /** 获取系统监控-系统日志列表 */
 export const getSystemLogsList = (data?: object) => {
-  return http.request<ResultTable>("post", baseUrlApi("system-logs"), {
+  return http.request<ResultTable>(
+    "get",
+    buildUrlWithQuery(baseUrlApi("system-logs/search"), data)
+  );
+};
+
+/** 获取系统监控-系统日志-根据 id 查日志详情 */
+export const getSystemLogsDetail = (data: { id: number }) => {
+  return http.request<Result>(
+    "get",
+    baseUrlApi(`system-logs/detail/${data.id}`)
+  );
+};
+
+/** 获取系统监控-系统日志-根据 id 删除日志 */
+export const deleteSystemLogs = (data?: { ids: number[] }) => {
+  return http.request<Result>("delete", baseUrlApi("system-logs/delete"), {
     data
   });
 };
 
-/** 获取系统监控-系统日志-根据 id 查日志详情 */
-export const getSystemLogsDetail = (data?: object) => {
-  return http.request<Result>("post", baseUrlApi("system-logs-detail"), {
-    data
-  });
+/** 获取系统监控-系统日志-清空系统日志 */
+export const clearSystemLogs = () => {
+  return http.request<Result>("delete", baseUrlApi("system-logs/delete-all"));
 };
 
 /** 获取角色管理-权限-菜单权限 */

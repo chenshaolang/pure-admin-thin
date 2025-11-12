@@ -5,7 +5,7 @@ import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
 import { type Ref, reactive, ref, onMounted, toRaw } from "vue";
 import { getKeyList, useCopyToClipboard } from "@pureadmin/utils";
-import { getSystemLogsList, getSystemLogsDetail } from "@/api/system";
+import { getSystemLogsList, getSystemLogsDetail, clearSystemLogs, deleteSystemLogs } from "@/api/system";
 import Info from "@iconify-icons/ri/question-line";
 
 export function useRole(tableRef: Ref) {
@@ -172,20 +172,26 @@ export function useRole(tableRef: Ref) {
     // 返回当前选中的行
     const curSelected = tableRef.value.getTableRef().getSelectionRows();
     // 接下来根据实际业务，通过选中行的某项数据，比如下面的id，调用接口进行批量删除
-    message(`已删除序号为 ${getKeyList(curSelected, "id")} 的数据`, {
-      type: "success"
+    deleteSystemLogs({ ids: getKeyList(curSelected, "id") }).then(() => {
+      message(`已删除序号为 ${getKeyList(curSelected, "id")} 的数据`, {
+        type: "success"
+      });
+      tableRef.value.getTableRef().clearSelection();
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
     });
-    tableRef.value.getTableRef().clearSelection();
-    onSearch();
   }
 
   /** 清空日志 */
   function clearAll() {
     // 根据实际业务，调用接口删除所有日志数据
-    message("已删除所有日志数据", {
-      type: "success"
+    clearSystemLogs().then(() => {
+      message("已删除所有日志数据", { type: "success" });
+      onSearch();
+    }).catch(() => {
+      message(`删除失败`, { type: "error" });
     });
-    onSearch();
   }
 
   function onDetail(row) {
@@ -196,7 +202,7 @@ export function useRole(tableRef: Ref) {
         hideFooter: true,
         contentRenderer: () => Detail,
         props: {
-          data: [res]
+          data: [res.data]
         }
       });
     });
