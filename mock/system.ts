@@ -9,7 +9,7 @@ export default defineFakeRoute([
     response: ({ body }) => {
       let list = [
         {
-          avatar: "https://avatars.githubusercontent.com/u/44761321",
+          avatar: "src/assets/user.png",
           username: "admin",
           nickname: "小铭",
           phone: "15888886789",

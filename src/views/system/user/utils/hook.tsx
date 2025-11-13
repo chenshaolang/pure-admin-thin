@@ -5,7 +5,7 @@ import editForm from "../form/index.vue";
 import { zxcvbn } from "@zxcvbn-ts/core";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import userAvatar from "@/assets/user.jpg";
+import userAvatar from "@/assets/user.png";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
