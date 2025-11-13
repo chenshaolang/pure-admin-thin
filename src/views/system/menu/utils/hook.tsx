@@ -218,8 +218,6 @@ export function useMenu() {
     }).catch(() => {
       message(`删除失败`, { type: "error" });
     });
-
-    onSearch();
   }
 
   onMounted(() => {
